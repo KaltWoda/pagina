@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDU RECURSOS</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(function() {
+                document.getElementById("modal").style.display = "flex";
+            }, 4000);
+        });
+    </script>
+</head>
+<body>
+    <div class="header-container">
+        <img src="/LOGO.png" alt="EDU RECURSOS" class="logo">
+    </div>
+    <div class="divider"></div>
+    <header>
+        <h1>Bienvenido a EDU RECURSOS</h1>
+        <p>Preservamos el conocimiento y facilitamos el acceso a información académica.</p>
+    </header>
+    <main>
+        <img src="/banner.jpg" alt="Banner de EDU RECURSOS" class="banner">
+        <section class="about-section">
+            <div class="about-container">
+                <button id="openModal">Ir al Articulo</button>
+                <div class="about-description">
+                    <h2>¿Quiénes somos?</h2>
+                    <p>Somos un sitio dedicado a la preservación de artículos académicos, asegurando que la información valiosa permanezca accesible para futuras generaciones. Creemos en el acceso libre al conocimiento y en la importancia de compartir recursos educativos de calidad.</p>
+                    <p>Redirigimos páginas con el propósito de optimizar la búsqueda de recursos y facilitar el acceso a documentos esenciales en distintos campos del conocimiento.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Modal de Políticas -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h2>Política de Privacidad y Cookies</h2>
+            <p>Para mejorar su experiencia y brindarle servicios personalizados, nuestra plataforma solicita acceso a su ubicación.</p> 
+            <p>Al aceptar, confirma que ha leído nuestras <a href="politicas.html">Políticas de Privacidad y Uso de Cookies</a>.</p>
+            <button id="aceptar">Ir al artículo</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('openModal').addEventListener('click', function() {
+            document.getElementById('modal').style.display = 'flex';
+        });
+        document.getElementById('aceptar').addEventListener('click', function() {
+            document.getElementById('modal').style.display = 'none';
+        });
+    </script>
+    <script type="module" src="script.js"></script>
+</body>
+</html>

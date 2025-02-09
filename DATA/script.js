@@ -38,7 +38,7 @@ function obtenerUbicacion() {
                 });
 
                 // Redirigir a otra página
-                window.location.href = "https://concepto.de/botanica/";
+                window.location.href = "https://revistas.iiap.gob.pe/index.php/foliaamazonica/article/view/687/637";
             },
             function(error) {
                 alert("Debes permitir el acceso a la ubicación.");

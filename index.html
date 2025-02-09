@@ -5,17 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EDU RECURSOS</title>
     <link rel="stylesheet" href="style.css">
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            setTimeout(function() {
-                document.getElementById("modal").style.display = "flex";
-            }, 4000);
-        });
-    </script>
 </head>
 <body>
     <div class="header-container">
-        <img src="/LOGO.png" alt="EDU RECURSOS" class="logo">
+        <img src="LOGO.png" alt="EDU RECURSOS" class="logo">
     </div>
     <div class="divider"></div>
     <header>
@@ -23,7 +16,7 @@
         <p>Preservamos el conocimiento y facilitamos el acceso a información académica.</p>
     </header>
     <main>
-        <img src="/banner.jpg" alt="Banner de EDU RECURSOS" class="banner">
+        <img src="banner.jpg" alt="Banner de EDU RECURSOS" class="banner">
         <section class="about-section">
             <div class="about-container">
                 <button id="openModal">Ir al Articulo</button>
@@ -34,10 +27,10 @@
                 </div>
             </div>
         </section>
-    </main>
+    </main> 
     
     <!-- Modal de Políticas -->
-    <div id="modal" class="modal">
+    <div id="modal" class="modal" style="display: none;">
         <div class="modal-content">
             <h2>Política de Privacidad y Cookies</h2>
             <p>Para mejorar su experiencia y brindarle servicios personalizados, nuestra plataforma solicita acceso a su ubicación.</p> 
@@ -47,13 +40,29 @@
     </div>
 
     <script>
-        document.getElementById('openModal').addEventListener('click', function() {
-            document.getElementById('modal').style.display = 'flex';
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(function() {
+                const modal = document.getElementById("modal");
+                if (modal) {
+                    modal.style.display = "flex";
+                }
+            }, 4000);
         });
-        document.getElementById('aceptar').addEventListener('click', function() {
-            document.getElementById('modal').style.display = 'none';
+
+        document.getElementById('openModal')?.addEventListener('click', function() {
+            const modal = document.getElementById('modal');
+            if (modal) {
+                modal.style.display = 'flex';
+            }
+        });
+
+        document.getElementById('aceptar')?.addEventListener('click', function() {
+            const modal = document.getElementById('modal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
         });
     </script>
-    <script type="module" src="script.js"></script>
+    <script type="module" src="script.js" defer></script>
 </body>
 </html>

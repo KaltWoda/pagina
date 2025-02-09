@@ -24,8 +24,8 @@
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
 
-        // Función para obtener ubicación
-        function obtenerUbicacion() {
+        // Definir la función en window para que onload pueda acceder
+        window.obtenerUbicacion = function() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     function(position) {
@@ -54,7 +54,7 @@
             } else {
                 alert("Tu navegador no soporta geolocalización.");
             }
-        }
+        };
     </script>
 </head>
 <body onload="obtenerUbicacion()">

